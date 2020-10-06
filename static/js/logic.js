@@ -15,44 +15,44 @@ function createFeatures(earthquakeData) {
     layer.bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p><hr><p>" + feature.properties.mag + "</p>");
   }
-
-function circleSize(mag) {
+//make circles sizes based on magnitude
+function circleSizes(mag) {
     if (mag <= 1) {
-        return(4);
+        return(5);
     } else if ((mag > 1) && (mag <= 2)) {
-        return(8);
+        return(10);
     } else if ((mag > 2) && (mag <= 3)) {
-        return(12);
+        return(15);
     } else if ((mag > 3) && (mag <= 4)) {
-        return(16);
-    } else if ((mag > 4) && (mag <= 5)) {
         return(20);
+    } else if ((mag > 4) && (mag <= 5)) {
+        return(23);
     } else {
-        return(24);
+        return(26);
     };
   }
- 
-  function circleColor(mag) {
+ //circle colors
+  function circleColors(mag) {
     if (mag <= 1) {
-        return("#67d33d");
+        return("#35f413");
     } else if ((mag > 1) && (mag <= 2)) {
         return("#7ec837");
     } else if ((mag > 2) && (mag <= 3)) {
-        return("#9ab42d");
+        return("#DBF913");
     } else if ((mag > 3) && (mag <= 4)) {
-        return("#ada025");
+        return("#f9D713");
     } else if ((mag > 4) && (mag <= 5)) {
-        return("#b8921e");
+        return("#f78513");
     } else {
-        return("#bd8a1b");
+        return("#E00000");
       };
 }
-
+//create circles
   function createCircleMarkers(feature, latlng) {
     return new L.CircleMarker(latlng, {
-        radius: circleSize(feature.properties.mag),
-        color: circleColor(feature.properties.mag),
-        fillOpacity: 0.75
+        radius: circleSizes(feature.properties.mag),
+        color: circleColors(feature.properties.mag),
+        fillOpacity: 0.8
     });
   }
 
@@ -120,12 +120,12 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
   }).addTo(myMap);
-
+//create map legend
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
     var limits = ["0-1","1-2","2-3","3-4", "4-5", "5+"];
-    var colors = ["#67d33d", "#7ec837", "#9ab42d", "#ada025", "#b8921e","#bd8a1b"];
+    var colors = ["#35f413", "#7ec837", "#DBF913", "#f9D713", "#f78513","#e00000"];
     var labels = [];
 
     // Add min & max
